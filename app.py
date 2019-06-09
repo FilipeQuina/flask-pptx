@@ -11,4 +11,4 @@ def hello_world():
 def download_slide():
     return send_file(os.getcwd() + os.sep + 'slides'+ os.sep + 'Ageu-001.ppt',  as_attachment=True, attachment_filename = 'Ageu-001.ppt')
 
-app.run(debug=True, use_reloader=True)
+#app.run(debug=True, use_reloader=True)
