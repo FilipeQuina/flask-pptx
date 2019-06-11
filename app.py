@@ -10,7 +10,8 @@ def hello_world():
 
 @app.route('/slide/')
 def download_slide():
-    gospel.UntitledTestCase()
+    slides = gospel.createSlide()
+    print('aaaaaa')
     return send_file(os.getcwd() + os.sep + 'slides'+ os.sep + 'Ageu-001.ppt',  as_attachment=True, attachment_filename = 'Ageu-001.ppt')
 
 
