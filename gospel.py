@@ -20,7 +20,7 @@ import re
 #options.add_argument("--headless")
    
 #def createSlide():
-driver = webdriver.PhantomJS(executable_path=os.getcwd()+"/phantomjs/bin/phantomjs.exe")
+driver = webdriver.PhantomJS(executable_path=os.getcwd()+"/phantomjs/bin/phantomjs")
 
 verificationErrors = []
 accept_next_alert = True
