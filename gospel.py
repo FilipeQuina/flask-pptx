@@ -16,11 +16,11 @@ import unittest
 import time
 import re
 
-#options = Options()
-#options.add_argument("--headless")
-   
+options = Options()
+options.add_argument("--headless")
+    
 #def createSlide():
-driver = webdriver.PhantomJS(executable_path=os.getcwd()+"/phantomjs/bin/phantomjs.exe")
+driver = webdriver.Firefox(options=options, executable_path="geckodriver.exe")
 
 verificationErrors = []
 accept_next_alert = True
