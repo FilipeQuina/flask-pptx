@@ -20,7 +20,7 @@ options = Options()
 options.add_argument("--headless")
     
 #def createSlide():
-driver = webdriver.Firefox(options=options, executable_path="geckodriver.exe")
+driver = webdriver.Firefox(options=options)
 
 verificationErrors = []
 accept_next_alert = True
