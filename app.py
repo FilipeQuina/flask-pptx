@@ -10,10 +10,10 @@ def hello_world():
 
 @app.route('/slide/')
 def download_slide():
-    slides = gospel.createSlide()
-    #return send_file(os.getcwd() + os.sep + 'slides'+ os.sep + 'Ageu-001.ppt',  as_attachment=True, attachment_filename = 'Ageu-001.ppt')
+    name = gospel.createSlide()
+    return send_file(os.getcwd() + os.sep + 'slides'+ os.sep + name,  as_attachment=True, attachment_filename = name)
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug =True)
