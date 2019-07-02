@@ -1,12 +1,13 @@
-from flask import Flask, send_file
+from flask import Flask, send_file, request, render_template
 import gospel
 import os
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return 'Aqui será a tela principal'
+def index():
+
+    return render_template("index.html")
 
 @app.route('/slide/')
 def download_slide():
