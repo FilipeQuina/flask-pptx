@@ -8,10 +8,13 @@ Flask-WTF==0.14.2
 idna==2.8
 itsdangerous==1.1.0
 Jinja2==2.10.1
+lxml==4.3.4
 MarkupSafe==1.1.1
 numpy==1.16.4
 pandas==0.24.2
+Pillow==6.1.0
 python-dateutil==2.8.0
+python-pptx==0.6.18
 pytz==2019.1
 requests==2.22.0
 selenium==3.141.0
@@ -20,3 +23,4 @@ soupsieve==1.9.1
 urllib3==1.25.3
 Werkzeug==0.15.4
 WTForms==2.2.1
+XlsxWriter==1.1.8
