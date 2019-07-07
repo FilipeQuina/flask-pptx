@@ -8,8 +8,8 @@ from pptx import Presentation
 from pptx.util import Pt,Inches
 
 
-def createSlide():
-    html = urlopen("https://www.letras.mus.br/midian-lima/nao-pare/")
+def createSlide(url):
+    html = urlopen(url)
     res = BeautifulSoup(html.read(),"lxml")
     titulo = (res.find_all(name='h1')[1]).text
     subtitulo = (res.find(name='h2').find(name="a").text.strip())
