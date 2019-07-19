@@ -13,7 +13,6 @@ def download_slide():
     url = request.args.get("url-link")
     name = gospel.createSlide(url)
     return send_file(os.getcwd() + os.sep + 'slides'+ os.sep + name,  as_attachment=True, attachment_filename = name)
-    return "oiiiiiiiiiiiiiiiiiiiiiiiiiii"
 
 
 if __name__ == "__main__":
