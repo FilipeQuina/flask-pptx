@@ -11,10 +11,11 @@ def index():
 @app.route('/slide/')
 def download_slide():
     url = request.args.get("url-link")
+    print(url)
     name = gospel.createSlide(url)
     return send_file(os.getcwd() + os.sep + 'slides'+ os.sep + name,  as_attachment=True, attachment_filename = name)
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug =True, use_reloader=True)
+    app.run(host='0.0.0.0', port=port, debug = True, use_reloader=True)
