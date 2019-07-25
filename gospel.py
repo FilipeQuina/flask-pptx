@@ -8,6 +8,7 @@ from pptx import Presentation
 from pptx.util import Pt,Inches
 
 def createSlide(url):
+    print(url)
 
     prs = Presentation() 
     slide = prs.slides.add_slide(prs.slide_layouts[0])
@@ -37,6 +38,7 @@ def createSlide(url):
             tf.text += "\n"
             tf.text += str(linha)
     name_file = titulo + '-' + subtitulo + ".pptx" 
+    print(prs.part)
     prs.save(r'slides/' + name_file)
     return name_file
 

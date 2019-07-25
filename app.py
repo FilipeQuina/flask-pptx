@@ -11,9 +11,12 @@ def index():
 @app.route('/slide/')
 def download_slide():
     url = request.args.get("url-link")
-    print(url)
+    caminho_slides = os.getcwd() + os.sep + 'slides'
+    for the_file in os.listdir(caminho_slides):
+        os.unlink(caminho_slides + os.sep + the_file)
+    
     name = gospel.createSlide(url)
-    return send_file(os.getcwd() + os.sep + 'slides'+ os.sep + name,  as_attachment=True, attachment_filename = name)
+    return send_file(caminho_slides + os.sep + name,  as_attachment=True, attachment_filename = name)
 
 
 if __name__ == "__main__":
