@@ -15,10 +15,8 @@ def download_slide():
     for the_file in os.listdir(caminho_slides):
         if (str(the_file) != ".gitkeep"):
             os.unlink(caminho_slides + os.sep + the_file)
-  
     name = gospel.createSlide(url)
     return send_file(caminho_slides + os.sep + name,  as_attachment=True, attachment_filename = name)
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
