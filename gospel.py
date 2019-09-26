@@ -1,6 +1,7 @@
 import requests
 import os
 import shutil
+import re
 
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
@@ -58,3 +59,36 @@ def makeText(letraCompleta):
                     textClear.append(l)
                 break
     return textClear
+
+def createSlideAPI(name, band, text):
+    prs = Presentation() 
+    slide = prs.slides.add_slide(prs.slide_layouts[0])
+    left = Inches(8.2)
+    top = Inches(5.7)
+  
+    titulo = name
+    subtitulo = band
+    letraCompleta = text
+
+    title = slide.shapes.title
+    subtitle = slide.placeholders[1]
+    title.text = titulo
+    subtitle.text = subtitulo
+    
+    letra = letraCompleta.split("\n\n")
+
+    for linhas in letra:
+        if (linhas != ''):
+            p = linhas.split("\n")
+            letra = prs.slides.add_slide(prs.slide_layouts[2]) 
+            shape = letra.shapes
+            left = Inches(8.2)
+            top = Inches(5.7)
+            shape.add_picture("base1.png", left, top)
+            body_shape = shape.placeholders[1]
+            tf = body_shape.text_frame.paragraphs[0]
+            tf.font.size = Pt(40)
+            tf.text += linhas
+    name_file = titulo + ' - ' + subtitulo + ".pptx" 
+    prs.save(r'slides/' + name_file)
+    return name_file

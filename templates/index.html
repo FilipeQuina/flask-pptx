@@ -17,7 +17,7 @@
 
         /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
         .row.content {
-            height: 450px
+            height: 100%;
         }
 
         /* Set gray background color and 100% height */
@@ -81,7 +81,7 @@
                         href="https://www.vagalume.com.br">Vagalume</a> e do site <a
                         href="https://www.letras.mus.br/">Letras.mus</a></p>
                 <hr>
-                
+
                 <label for="pesquisa_musica">Digite o nome da música: </label>
                 <input id="pesquisa_musica" name="pesquisa_musica" type="text">
                 <button id="btn_search" class="btn btn-info">Pesquisar</button>
@@ -92,7 +92,7 @@
                         <th>Ação</th>
                     </thead>
                     <tbody id="list_lyrics">
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -102,35 +102,34 @@
         </div>
     </div>
     <script type="text/javascript">
-        var pesquisa_musica = $("#pesquisa_musica").val();
-        $(document).ready(function () {
-            $("#btn_search").click(function () {
-                $.ajax({
-                    url: "https://api.vagalume.com.br/search.excerpt?q=" + pesquisa_musica + "&limit=15",
-                    type: 'get',
-                    success: function (json) {
-                        //console.log(json.response.docs)
-                        //console.log(JSON.stringify(json.response.docs));
-                        generateList(json.response.docs);
-                    }
-                }).fail(function (jqXHR, textStatus, msg) {
-                    alert(msg);
-                });
+
+        $("#btn_search").click(function () {
+            var pesquisa_musica = $("#pesquisa_musica").val();
+            $.ajax({
+                url: "https://api.vagalume.com.br/search.excerpt?q=" + pesquisa_musica + "&limit=15",
+                type: 'get',
+                success: function (json) {
+                    generateList(json.response.docs);
+                }
+            }).fail(function (jqXHR, textStatus, msg) {
+                alert(msg);
             });
         });
-        function generateList(resultado){
-            for(i=0;i<resultado.length;i++){
+        
+        function generateList(resultado) {
+            for (i = 0; i < resultado.length; i++) {
                 $("#list_lyrics").append(
-                "<tr>"+
-                    "<td>"+resultado[i].title+"</td>"+
-                    "<td>"+resultado[i].band+"</td>"+
-                    "<td>"+
-                        "<button id='see_lyrics' class='btn btn-warning'>Ver letra</button>"+
-                        "<button id='create_slide' class='btn btn-info'>Criar Slides</button>"+
-                    "</td>"+
-                "</tr>"
-            );
-        }};
+                    "<tr>" +
+                    "<td>" + resultado[i].title + "</td>" +
+                    "<td>" + resultado[i].band + "</td>" +
+                    "<td>" +
+                    "<a href='/showLyrics.html?musid=" + resultado[i].id + "'>Ver letra</a>" +
+                    "</td>" +
+                    "</tr>"
+                );
+            }
+        };
     </script>
 </body>
+
 </html>

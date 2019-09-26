@@ -8,6 +8,11 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route('/showLyrics.html')
+def showLyrics():
+    musid = request.args.get('musid') 
+    return render_template("showLyrics.html",musid=musid)
+
 @app.route('/slide/')
 def download_slide():
     url = request.args.get("url-link")
@@ -17,6 +22,19 @@ def download_slide():
             os.unlink(caminho_slides + os.sep + the_file)
     name = gospel.createSlide(url)
     return send_file(caminho_slides + os.sep + name,  as_attachment=True, attachment_filename = name)
+
+@app.route('/sendByAPI/',methods=['POST'])
+def sendByAPI():
+    caminho_slides = os.getcwd() + os.sep + 'slides'
+
+    title = request.form["title"]
+    band = request.form["band"]
+    text = request.form["text"]
+    name = gospel.createSlideAPI(title,band,text)
+    try:
+        return send_file(caminho_slides + os.sep + name,  as_attachment=True, attachment_filename = name)
+    except Exception as e:
+	    return str(e)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

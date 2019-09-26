@@ -1,0 +1,65 @@
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row content">
+            <button id="createSlide" class="btn btn-info">Criar Slide</button>
+                <div class="col-sm-2 sidenav">
+                    </div>
+            <div class="col-sm-8 col-xl-8">
+                <h1 id="title"></h1>
+                <h2 id="band"></h2>
+                <p id="text"></p>
+            </div>
+            <div class="col-sm-2 sidenav">
+                </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var urlParams = new URLSearchParams(location.search);
+            musid = urlParams.get('musid');
+            $.ajax({
+                url: "https://api.vagalume.com.br/search.php?musid=" + musid + "&apikey=c7e791ff9a6292b3f9cf104248d8cc40",
+                type: 'get',
+                success: function (data) {
+                    $("#title").append(data.mus[0].name);
+                    $("#band").append(data.art.name);
+                    $("#text").append(data.mus[0].text);
+                }
+            }).done(function (data) {
+                var teste = data;
+            }).fail(function (jqXHR, textStatus, msg) {
+                alert(msg);
+            });
+            $("#createSlide").click(function(){
+                var title = $("#title").text();
+                var band = $("#band").text();
+                var text = $("#text").text();
+                $.ajax({
+                    url: "/sendByAPI/",
+                    type: 'post',
+                    data:{
+                        "title":title,
+                        "band":band,
+                        "text":text,
+                    },
+                }).fail(function (jqXHR, textStatus, msg) {
+                    alert("Parece que o servidor está com problemas, favor tentar mais tarde.");
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
