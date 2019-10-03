@@ -89,9 +89,7 @@ def createSlideAPI(name, band, text):
             tf = body_shape.text_frame.paragraphs[0]
             tf.font.size = Pt(40)
             tf.text += linhas
-    name_file = titulo + '-' + subtitulo + ".pptx"
     output = BytesIO()
-    #prs.save(r'slides/' + name_file)
     prs.save(output)
     teste = output.getvalue()
     return teste

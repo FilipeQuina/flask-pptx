@@ -1,5 +1,5 @@
 #encoding: utf-8
-from flask import Flask, send_from_directory, request, render_template, redirect, Response, send_file, make_response
+from flask import Flask, send_rom_directory, request, render_template, redirect, Response, send_file, make_response
 import gospel
 import os,io
 
@@ -26,30 +26,15 @@ def download_slide():
 
 @app.route('/sendByAPI',methods=['POST'])
 def sendByAPI():
-    #caminho_slides = os.getcwd() + os.sep + 'slides'
-
     title = request.form["title"]
     band = request.form["band"]
     text = request.form["text"]
     slideObj = gospel.createSlideAPI(title,band,text)
     name = title+"-"+band+".pptx"
-    #return send_file(slideObj,  as_attachment=True, mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation")
-    #response = make_response(name,200)
-    #response.mimetype = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-    #file = io.BytesIO(slideObj)
-    #return Response(file, mimetype="application/xml")
-
-
     response = make_response(slideObj)
     response.headers['Content-Type'] = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
     response.headers['Content-Description'] = 'attachment; filename={}'.format(name)
     return response
-
-
-
-
-
-    #return redirect("/sendByAPI/"+name)
 
 @app.route('/sendByAPI/<name>',methods=['GET'])
 def sendSlide(name):
