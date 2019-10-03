@@ -1,6 +1,7 @@
-from flask import Flask, send_file, request, render_template
+#encoding: utf-8
+from flask import Flask, send_from_directory, request, render_template, redirect, Response, send_file, make_response
 import gospel
-import os
+import os,io
 
 app = Flask(__name__)
 
@@ -23,16 +24,39 @@ def download_slide():
     name = gospel.createSlide(url)
     return send_file(caminho_slides + os.sep + name,  as_attachment=True, attachment_filename = name)
 
-@app.route('/sendByAPI/',methods=['POST'])
+@app.route('/sendByAPI',methods=['POST'])
 def sendByAPI():
-    caminho_slides = os.getcwd() + os.sep + 'slides'
+    #caminho_slides = os.getcwd() + os.sep + 'slides'
 
     title = request.form["title"]
     band = request.form["band"]
     text = request.form["text"]
-    name = gospel.createSlideAPI(title,band,text)
+    slideObj = gospel.createSlideAPI(title,band,text)
+    name = title+"-"+band+".pptx"
+    #return send_file(slideObj,  as_attachment=True, mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation")
+    #response = make_response(name,200)
+    #response.mimetype = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    #file = io.BytesIO(slideObj)
+    #return Response(file, mimetype="application/xml")
+
+
+    response = make_response(slideObj)
+    response.headers['Content-Type'] = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    response.headers['Content-Description'] = 'attachment; filename={}'.format(name)
+    return response
+
+
+
+
+
+    #return redirect("/sendByAPI/"+name)
+
+@app.route('/sendByAPI/<name>',methods=['GET'])
+def sendSlide(name):
+    print(name)
+    caminho_slides = os.getcwd() + os.sep + 'slides'
     try:
-        return send_file(caminho_slides + os.sep + name,  as_attachment=True, attachment_filename = name)
+        return send_file(caminho_slides + os.sep + name,  as_attachment=True, mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation")
     except Exception as e:
 	    return str(e)
 

@@ -37,25 +37,19 @@
                     $("#band").append(data.art.name);
                     $("#text").append(data.mus[0].text);
                 }
-            }).done(function (data) {
-                var teste = data;
-            }).fail(function (jqXHR, textStatus, msg) {
-                alert(msg);
             });
             $("#createSlide").click(function(){
                 var title = $("#title").text();
                 var band = $("#band").text();
                 var text = $("#text").text();
                 $.ajax({
-                    url: "/sendByAPI/",
+                    url: "/sendByAPI",
                     type: 'post',
                     data:{
                         "title":title,
                         "band":band,
                         "text":text,
                     },
-                }).fail(function (jqXHR, textStatus, msg) {
-                    alert("Parece que o servidor está com problemas, favor tentar mais tarde.");
                 });
             });
         });

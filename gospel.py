@@ -3,6 +3,7 @@ import os
 import shutil
 import re
 
+from io import BytesIO
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from pptx import Presentation
@@ -38,7 +39,7 @@ def createSlide(url):
             tf.text += str(linha)
     name_file = titulo + '-' + subtitulo + ".pptx" 
     prs.save(r'slides/' + name_file)
-    return name_file
+    return prs
 
 def makeText(letraCompleta):
     textClear = []
@@ -79,7 +80,6 @@ def createSlideAPI(name, band, text):
 
     for linhas in letra:
         if (linhas != ''):
-            p = linhas.split("\n")
             letra = prs.slides.add_slide(prs.slide_layouts[2]) 
             shape = letra.shapes
             left = Inches(8.2)
@@ -89,6 +89,9 @@ def createSlideAPI(name, band, text):
             tf = body_shape.text_frame.paragraphs[0]
             tf.font.size = Pt(40)
             tf.text += linhas
-    name_file = titulo + ' - ' + subtitulo + ".pptx" 
-    prs.save(r'slides/' + name_file)
-    return name_file
+    name_file = titulo + '-' + subtitulo + ".pptx"
+    output = BytesIO()
+    #prs.save(r'slides/' + name_file)
+    prs.save(output)
+    teste = output.getvalue()
+    return teste
