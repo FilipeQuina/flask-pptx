@@ -4,3 +4,4 @@ __pycache__
 ENV
 geckodriver.log
 *.pptx
+venv
