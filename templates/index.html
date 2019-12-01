@@ -110,8 +110,10 @@
                 url: "https://api.vagalume.com.br/search.excerpt?q=" + pesquisa_musica + "&limit=15",
                 type: 'get',
                 success: function (json) {
+                    var teste = json;
                     $('#list_lyrics').empty();
-                    generateList(json.response.docs);
+                    console.log(JSON.parse(json).response);
+                    generateList(JSON.parse(json).response.docs);
                 }
             }).fail(function (jqXHR, textStatus, msg) {
                 alert(msg);
