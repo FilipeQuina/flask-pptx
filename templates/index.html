@@ -107,12 +107,10 @@
             var pesquisa_musica = $("#pesquisa_musica").val();
             $.ajax({
 
-                url: "https://api.vagalume.com.br/search.excerpt?q=" + pesquisa_musica + "&limit=15",
+                url: "https://api.vagalume.com.br/search.mus?q=" + pesquisa_musica + "&limit=10&art=Delino%20Marçal",
                 type: 'get',
                 success: function (json) {
-                    var teste = json;
                     $('#list_lyrics').empty();
-                    console.log(JSON.parse(json).response);
                     generateList(JSON.parse(json).response.docs);
                 }
             }).fail(function (jqXHR, textStatus, msg) {

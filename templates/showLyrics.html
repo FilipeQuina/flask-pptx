@@ -77,7 +77,7 @@
             <div class="col-sm-8 col-xl-8 text-center">
                 <h1 id="title"></h1>
                 <h2 id="band"></h2>
-                <p id="text"></p>
+                <textarea cols="30" rows="30"id="text"></textarea>
             </div>
             <div class="col-sm-2 col-xl-2 sidenav">
 
@@ -98,35 +98,34 @@
                     $("#title").append(data.mus[0].name);
                     $("#band").append(data.art.name);
                     $("#text").append(data.mus[0].text.replace(/^[A-Z]$/i, "</p><p>"));
-                    console.log(data.mus[0].text);
                 }
             });
-            $("#createSlide").click(function () {
-                var title = $("#title").text();
-                var band = $("#band").text();
-                var text = $("#text").text();
-                $.ajax({
-                    url: "/sendByAPI",
-                    type: 'post',
-                    data: {
-                        "title": title,
-                        "band": band,
-                        "text": text,
-                    },
-                    xhrFields: {
-                        responseType: 'blob'
-                    },
-                    success: function (data) {
-                        var a = document.createElement('a');
-                        var url = window.URL.createObjectURL(data);
-                        a.href = url;
-                        a.download = title + ' - ' + band + '.pptx';
-                        document.body.append(a);
-                        a.click();
-                        a.remove();
-                        window.URL.revokeObjectURL(url);
-                    }
-                });
+        });
+        $("#createSlide").click(function () {
+            var title = $("#title").text();
+            var band = $("#band").text();
+            var text = $("#text").val();
+            $.ajax({
+                url: "/sendByAPI",
+                type: 'post',
+                data: {
+                    "title": title,
+                    "band": band,
+                    "text": text,
+                },
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (data) {
+                    var a = document.createElement('a');
+                    var url = window.URL.createObjectURL(data);
+                    a.href = url;
+                    a.download = title + ' - ' + band + '.pptx';
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                }
             });
         });
     </script>
