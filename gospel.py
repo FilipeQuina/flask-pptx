@@ -31,7 +31,7 @@ def createSlideAPI(name, band, text):
             shape = letra.shapes
             left = Inches(8.2)
             top = Inches(5.7)
-            shape.add_picture("base1.png", left, top)
+            shape.add_picture("static/content/base1.png", left, top)
             body_shape = shape.placeholders[1]
             tf = body_shape.text_frame.paragraphs[0]
             tf.font.size = Pt(40)

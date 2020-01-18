@@ -1,138 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "template.html" %}
 
-<head>
-    <title>Gerador de Slides</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <style>
-        /* Remove the navbar's default margin-bottom and rounded borders */
-        .navbar {
-            margin-bottom: 0;
-            border-radius: 0;
-        }
-
-        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-        .row.content {
-            height: 100%;
-        }
-
-        /* Set gray background color and 100% height */
-        .sidenav {
-            padding-top: 20px;
-            background-color: #f1f1f1;
-            height: 100%;
-        }
-
-        /* Set black background color, white text and some padding */
-        footer {
-            background-color: #555;
-            color: white;
-            padding: 15px;
-        }
-
-        /* On small screens, set height to 'auto' for sidenav and grid */
-        @media screen and (max-width: 767px) {
-            .sidenav {
-                height: auto;
-                padding: 15px;
-            }
-
-            .row.content {
-                height: auto;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Logo</a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
-            </div>
+{% block content %}
+<div class="container text-center">
+    <div class="row content">
+        <div class="col-sm-2 col-xl-2 sidenav">
         </div>
-    </nav>
+        <div class="col-sm-8 col-xl-8 text-left">
+            <h1>Bem-vindo</h1>
+            <p>Esta ferramenta tem como finalidade auxiliar na criação de slides usado as letras do site <a
+                    href="https://www.vagalume.com.br">Vagalume</a></p>
+            <hr>
+            <label for="pesquisa_musica">Digite o nome da música: </label>
+            <input id="pesquisa_musica" name="pesquisa_musica" type="text">
+            <button id="btn_search" class="btn btn-info">Pesquisar</button>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <th>Nome da música</th>
+                    <th>Nome do cantor</th>
+                    <th>Ação</th>
+                </thead>
+                <tbody id="list_lyrics">
 
-    <div class="container text-center">
-        <div class="row content">
-            <div class="col-sm-2 col-xl-2 sidenav">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2 col-xl-2 sidenav">
 
-            </div>
-            <div class="col-sm-8 col-xl-8 text-left">
-                <h1>Bem-vindo</h1>
-                <p>Esta ferramenta tem como finalidade auxiliar na criação de slides usado as letras do site <a
-                        href="https://www.vagalume.com.br">Vagalume</a></p>
-                <hr>
-
-                <label for="pesquisa_musica">Digite o nome da música: </label>
-                <input id="pesquisa_musica" name="pesquisa_musica" type="text">
-                <button id="btn_search" class="btn btn-info">Pesquisar</button>
-                <table class="table table-hover table-sm">
-                    <thead>
-                        <th>Nome da música</th>
-                        <th>Nome do cantor</th>
-                        <th>Ação</th>
-                    </thead>
-                    <tbody id="list_lyrics">
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-sm-2 col-xl-2 sidenav">
-
-            </div>
         </div>
     </div>
-    <script type="text/javascript">
-        generateList("");
-        $("#btn_search").click(function () {
-            var pesquisa_musica = $("#pesquisa_musica").val();
-            $.ajax({
+</div>
+<script type="text/javascript">
+    generateList("");
+    $("#btn_search").click(function () {
+        var pesquisa_musica = $("#pesquisa_musica").val();
+        $.ajax({
 
-                url: "https://api.vagalume.com.br/search.mus?q=" + pesquisa_musica + "&limit=10&art=Delino%20Marçal",
-                type: 'get',
-                success: function (json) {
-                    $('#list_lyrics').empty();
-                    generateList(JSON.parse(json).response.docs);
-                }
-            }).fail(function (jqXHR, textStatus, msg) {
-                alert(msg);
-            });
-        });
-
-        function generateList(resultado) {
-
-            for (i = 0; i < resultado.length; i++) {
-                $("#list_lyrics").append(
-                    "<tr>" +
-                    "<td>" + resultado[i].title + "</td>" +
-                    "<td>" + resultado[i].band + "</td>" +
-                    "<td>" +
-                    "<a href='/showLyrics/?musid=" + resultado[i].id + "'>Ver letra</a>" +
-                    "</td>" +
-                    "</tr>"
-                );
+            url: "https://api.vagalume.com.br/search.mus?q=" + pesquisa_musica + "&limit=10&art=Delino%20Marçal",
+            type: 'get',
+            success: function (json) {
+                $('#list_lyrics').empty();
+                generateList(JSON.parse(json).response.docs);
             }
-        };
-    </script>
-</body>
+        }).fail(function (jqXHR, textStatus, msg) {
+            alert(msg);
+        });
+    });
 
-</html>
+    function generateList(resultado) {
+        for (i = 0; i < resultado.length; i++) {
+            $("#list_lyrics").append(
+                "<tr>" +
+                "<td>" + resultado[i].title + "</td>" +
+                "<td>" + resultado[i].band + "</td>" +
+                "<td>" +
+                "<a href='/showLyrics/?musid=" + resultado[i].id + "'>Ver letra</a>" +
+                "</td>" +
+                "</tr>"
+            );
+        }
+    };
+</script>
+{% endblock %}}
