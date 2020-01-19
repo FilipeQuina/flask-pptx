@@ -1,0 +1,74 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+
+<div class="container text-center">
+    <div class="row content">
+
+        <div class="col-sm-2 sidenav">
+        </div>
+        <div class="col-sm-8 col-xl-8 text-center">
+            <div class="form-group">
+                <label for="title">Título: </label>
+                <input id="title" placeholder="Digite o Titulo" />
+            </div>
+            <div class="form-group">
+                <label for="band">Autor: </label>
+                <input id="band" name="band" placeholder="Digite o/a Autor(a)" />
+            </div>
+            <div class="form-group">
+                <textarea cols="30" rows="20" id="text"></textarea>
+            </div>
+            <div class="form-group">
+                <button id="createSlide" class="btn btn-info">Criar Slide</button>
+            </div>
+        </div>
+        <div class="col-sm-2 col-xl-2 sidenav">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var urlParams = new URLSearchParams(location.search);
+        musid = urlParams.get('musid');
+        $.ajax({
+            url: "https://api.vagalume.com.br/search.php?musid=" + musid + "&apikey=c7e791ff9a6292b3f9cf104248d8cc40",
+            type: 'get',
+            success: function (data) {
+                $("#title").val(data.mus[0].name);
+                $("#band").val(data.art.name);
+                $("#text").append(data.mus[0].text.replace(/^[A-Z]$/i, "</p><p>"));
+            }
+        });
+    });
+    $("#createSlide").click(function () {
+        var title = $("#title").val();
+        var band = $("#band").val();
+        var text = $("#text").val();
+        $.ajax({
+            url: "/sendByAPI",
+            type: 'post',
+            data: {
+                "title": title,
+                "band": band,
+                "text": text,
+            },
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (data) {
+                var a = document.createElement('a');
+                var url = window.URL.createObjectURL(data);
+                a.href = url;
+                a.download = title + ' - ' + band + '.pptx';
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "template.html" %}
+
+{% block content %}
+<div class="container text-center">
+    <div class="row content">
+        <div class="col-sm-2 col-xl-2 sidenav">
+        </div>
+        <div class="col-sm-8 col-xl-8 text-left">
+            <h1>Bem-vindo</h1>
+            <p>Esta ferramenta tem como finalidade auxiliar na criação de slides usado as letras do site <a
+                    href="https://www.vagalume.com.br">Vagalume</a></p>
+            <hr>
+            <label for="pesquisa_musica">Digite o nome da música: </label>
+            <input id="pesquisa_musica" name="pesquisa_musica" type="text">
+            <button id="btn_search" class="btn btn-info">Pesquisar</button>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <th>Nome da música</th>
+                    <th>Nome do cantor</th>
+                    <th>Ação</th>
+                </thead>
+                <tbody id="list_lyrics">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2 col-xl-2 sidenav">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    generateList("");
+    $("#btn_search").click(function () {
+        var pesquisa_musica = $("#pesquisa_musica").val();
+        $.ajax({
+
+            url: "https://api.vagalume.com.br/search.mus?q=" + pesquisa_musica + "&limit=10&art=Delino%20Marçal",
+            type: 'get',
+            success: function (json) {
+                $('#list_lyrics').empty();
+                generateList(JSON.parse(json).response.docs);
+            }
+        }).fail(function (jqXHR, textStatus, msg) {
+            alert(msg);
+        });
+    });
+
+    function generateList(resultado) {
+        for (i = 0; i < resultado.length; i++) {
+            $("#list_lyrics").append(
+                "<tr>" +
+                "<td>" + resultado[i].title + "</td>" +
+                "<td>" + resultado[i].band + "</td>" +
+                "<td>" +
+                "<a href='/showLyrics/?musid=" + resultado[i].id + "'>Ver letra</a>" +
+                "</td>" +
+                "</tr>"
+            );
+        }
+    };
+</script>
+{% endblock %}}

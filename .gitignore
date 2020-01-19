@@ -1,4 +1,7 @@
 __pycache__
 .vscode
 *.pyc
+ENV
+geckodriver.log
+*.pptx
 venv

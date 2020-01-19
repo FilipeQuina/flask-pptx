@@ -1,0 +1,36 @@
+html, body {height:100%;}
+
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+.container{
+    background-color: #f1f1f1;
+    min-height: 90%;
+}
+/* Set black background color, white text and some padding */
+footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+    height: 50px;
+    position:relative;
+    bottom:0;
+    width:100%;
+}
+textarea {    
+    resize: both;
+    overflow: auto;
+}
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+
+    .row.content {
+        height: auto;
+    }
+}
